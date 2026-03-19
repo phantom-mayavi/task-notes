@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 type Task = {
   id: number;
@@ -10,11 +11,13 @@ type Task = {
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './tasks.html',
   styleUrl: './tasks.scss',
 })
 export class Tasks {
+  newTaskTitle = '';
+
   tasks: Task[] = [
     { id: 1, title: 'Learn Angular Basics', done: false },
     { id: 2, title: 'Build Task Manager', done: false },
@@ -24,4 +27,30 @@ export class Tasks {
   toggle(task: Task) {
     task.done = !task.done;
   }
+
+  addTask() {
+    const title = this.newTaskTitle.trim();
+
+    if (!title) {
+      return;
+    }
+
+    this.tasks.push({
+      id: Date.now(),
+      title,
+      done: false
+    });
+
+    this.newTaskTitle = '';
+  }
+
+  deleteTask(taskId: number) {
+    this.tasks = this.tasks.filter(task => task.id !== taskId);
+
+  }
+
+  get pendingCount() {
+    return this.tasks.filter(task => !task.done).length;
+  }
+
 }
