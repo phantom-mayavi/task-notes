@@ -5,9 +5,10 @@
 
 <div>
     <input type="text" 
-    [(ngModel)]="newTaskTitle" 
-    (keyup.enter)="addTask()"
-    placeholder="Enter a new task" />
+        #taskInput
+        [(ngModel)]="newTaskTitle" 
+        (keyup.enter)="addTask()"
+        placeholder="Enter a new task" />
     <button 
         (click)="addTask()"
         [disabled]="!newTaskTitle.trim()"
@@ -31,3 +32,5 @@
         <button style="margin-left: 10px;" (click)="confirmDelete(task)">Delete</button>
     </li>
 </ul>
+
+<p *ngIf="pendingCount === 0 && tasks.length > 0">All tasks completed 🎉</p>

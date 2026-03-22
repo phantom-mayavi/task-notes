@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { viewChild, ElementRef, AfterViewInit } from '@angular/core';
 
 type Task = {
   id: number;
@@ -15,7 +16,14 @@ type Task = {
   templateUrl: './tasks.html',
   styleUrl: './tasks.scss',
 })
-export class Tasks {
+export class Tasks implements AfterViewInit  {
+
+  @ViewChild('taskInput') taskInput!: ElementRef<HTMLInputElement>;
+
+  ngAfterViewInit() {
+    this.taskInput.nativeElement.focus();
+  }
+
   newTaskTitle = '';
 
   tasks: Task[] = [
