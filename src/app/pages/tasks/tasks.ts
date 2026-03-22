@@ -44,9 +44,20 @@ export class Tasks {
     this.newTaskTitle = '';
   }
 
+  confirmDelete(task: Task) {
+    const ok = confirm('Delete this task?');
+    if (ok) {
+      this.deleteTask(task.id);
+    }
+  }
+
   deleteTask(taskId: number) {
     this.tasks = this.tasks.filter(task => task.id !== taskId);
 
+  }
+
+  taskById(_index: number, task: Task) {
+    return task.id;
   }
 
   get pendingCount() {

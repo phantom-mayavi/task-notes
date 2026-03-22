@@ -4,13 +4,20 @@
 <p>Pending Tasks: {{ pendingCount }}</p>
 
 <div>
-    <input type="text" [(ngModel)]="newTaskTitle" 
+    <input type="text" 
+    [(ngModel)]="newTaskTitle" 
+    (keyup.enter)="addTask()"
     placeholder="Enter a new task" />
-    <button (click)="addTask()">Add Task</button>
+    <button 
+        (click)="addTask()"
+        [disabled]="!newTaskTitle.trim()"
+    >
+        Add Task
+    </button>
 </div>
-
+<p *ngIf="tasks.length === 0">No tasks yet.</p>
 <ul>
-    <li *ngFor="let task of tasks">
+    <li *ngFor="let task of tasks; trackBy: taskById">
         <input
             type="checkbox"
             [checked]="task.done"
@@ -21,4 +28,6 @@
         >
             {{ task.title }}
         </span>
+        <button style="margin-left: 10px;" (click)="confirmDelete(task)">Delete</button>
+    </li>
 </ul>
